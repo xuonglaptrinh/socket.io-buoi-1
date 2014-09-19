@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-9">
 	<title>Hello socket.io</title>
 	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
 
@@ -20,6 +20,28 @@
 		});
 
 
+		chatSocket.on('new:message', function (data){
+			console.log('New message', data);
+		});
+
+		var roomName = '';
+
+		var joinRoom = function (){
+			roomName = prompt('Nhap ten room : ');
+			console.log('joined room '+ roomName);
+
+			chatSocket.emit('join:room', {room : roomName});
+		}
+
+		var message = '';
+		var sendMessage = function (){
+			message = prompt('Nhap tin nhan');
+			chatSocket.emit('send:message', {
+				content: message,
+				from: username,
+				room: roomName
+			})
+		}
 
 
 
@@ -28,5 +50,8 @@
 </head>
 <body>
 	<p>Hello world</p>
+
+	<button onclick="joinRoom()">Join a room </button>
+	<button onclick="sendMessage()">Send message to room </button>
 </body>
 </html>

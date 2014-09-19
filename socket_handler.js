@@ -26,6 +26,17 @@ module.exports = function (httpServer){
 			socket.broadcast.emit('new:user', {username: data.username});
 			socket.emit('hello:user');
 		})
+
+		socket.on('join:room', function (data){
+			socket.join(data.room);
+		})
+
+		socket.on('send:message', function (data){
+			
+			socket.to(data.room).emit('new:message',data);
+			
+			/*console.log(chat.adapter.rooms);*/
+		})
 	});
 
 
